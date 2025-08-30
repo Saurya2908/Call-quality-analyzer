@@ -1,1 +1,60 @@
-We optimize for speed and robustness. Audio is fetched via yt-dlp, converted to 16 kHz mono, and transcribed with faster-whisper (tiny) using VAD filtering and beam_size=1 for fast, noise-tolerant results on Colab Free. For diarization we avoid heavy models: we slide 1.5 s windows, compute MFCC mean/variance features, and run KMeans (k=2); contiguous windows with the same label are merged into speaker turns. We align word midpoints to turns, then compute: (1) talk-time ratio by summing segment durations, (2) question count via punctuation and WH-sentence heuristics, (3) longest monologue from merged turns, (4) sentiment with NLTK VADER, and (5) a rule-based actionable insight driven by imbalance, question volume, and sentiment. For the bonus, we heuristically tag Sales Rep vs Customer using a weighted score: questions asked, presence of sales keywords, and talk-time share. The code is compact, commented, and avoids paid APIs so it runs reliably on the free tier.
+# 📞 Call Quality Analyzer
+
+This project is an assignment for a **Voice AI developer role**.  
+It analyzes a sales call recording and returns:
+
+- **Talk-time ratio** (what % each person spoke)  
+- **Number of questions asked**  
+- **Longest monologue duration**  
+- **Call sentiment** (positive / negative / neutral)  
+- **One actionable insight**  
+
+**Bonus**: heuristically identifies the **Sales Rep** vs **Customer**.
+
+---
+
+## 🚀 Run in Google Colab
+
+Click below to open and run the notebook directly in Colab (free tier):
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Saurya2908/Call-quality-analyzer/blob/main/Call_Quality_Analyzer_Colab.ipynb)
+
+---
+
+## 🛠️ Approach (Quick Summary)
+
+- **Audio Processing**: Download via `yt-dlp`, convert to 16kHz mono.  
+- **Transcription**: `faster-whisper (tiny)` for speed + noise tolerance.  
+- **Speaker Diarization**: MFCC features + `KMeans (k=2)` clustering (fast, lightweight).  
+- **Metrics**:  
+  - Talk-time ratio = speaker segment durations  
+  - Questions = punctuation + WH-word heuristics  
+  - Longest monologue = max contiguous segment  
+  - Sentiment = NLTK VADER  
+- **Actionable Insight**: simple rule-based suggestions (balance, questions, sentiment).  
+- **Bonus**: Identify **Sales Rep** by scoring based on talk-time, questions asked, and sales-related keywords.  
+
+---
+
+## 📂 Files
+
+- `Call_Quality_Analyzer_Colab.ipynb` → Main notebook (run this in Colab).  
+- `README.md` → Project overview and instructions.  
+
+---
+
+## ⚡ Test File
+
+All metrics are tested on the provided call recording:  
+[YouTube Link](https://www.youtube.com/watch?v=4ostqJD3Psc)
+
+---
+
+## ✅ Requirements
+
+The notebook auto-installs required packages:
+- `yt-dlp`, `faster-whisper`, `librosa`, `pydub`, `numpy`, `scipy`, `scikit-learn`, `nltk`
+
+Runs in **Colab Free tier** in under 30s.
+
+---
